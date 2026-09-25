@@ -12,11 +12,10 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-import java.util.Random;
-
 public class MainActivity extends AppCompatActivity {
 
     int posicao = 0;
+    double IMC = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,13 +38,27 @@ public class MainActivity extends AppCompatActivity {
         Button btnvol, btnpro;
         btnvol = findViewById(R.id.btnvolt);
         btnpro = findViewById(R.id.btnprox);
+        TextView tv = findViewById(R.id.txtIMC);
+        EditText ep = findViewById(R.id.txtPeso);
+        EditText ea = findViewById(R.id.txtAltura);
 
         btnpro.setOnClickListener(view -> {
             posicao++;
             iv.setImageResource(imgs[posicao]);
-            if (posicao >= imgs.length){
+            if (posicao >= imgs.length-1){
                 posicao = 0;
             }
+            IMC = Double.parseDouble(ep.getText().toString()) / ((Double.parseDouble(ea.getText().toString()) * Double.parseDouble(ea.getText().toString())) / 10000);
+            tv.setText(Double.toString(IMC));
+        });
+        btnvol.setOnClickListener(view -> {
+            posicao--;
+            if (posicao <0){
+                posicao = imgs.length-1;
+            }
+            iv.setImageResource(imgs[posicao]);
+            IMC =Double.parseDouble(ep.getText().toString()) / ((Double.parseDouble(ea.getText().toString()) * Double.parseDouble(ea.getText().toString())) / 10000);
+            tv.setText(Double.toString(IMC));
         });
 
     }
